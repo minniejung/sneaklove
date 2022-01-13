@@ -27,7 +27,7 @@
     "seed:sneaker": "node ./bin/seeds/sneaker.js",
     "seed:user": "node ./bin/seeds/user.js",
     "seed:all": "npm run seed:tag && npm run seed:sneaker && npm run seed:user",
-    "dev": "nodemon ./bin/www -e js,hbs"
+    "dev": "nodemon ./bin/www -e .js,.hbs"
   },
   "keywords": [],
   "author": "",
