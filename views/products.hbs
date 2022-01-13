@@ -15,6 +15,9 @@
 
   {{!-- PRODUCTS--}}
   <section class="products-wrapper">
+    {{#each products}}
+    {{this.name}}
+    {{/each}}
     <div class="products-infos">
       <h4 class="products-title">
         {{#compare category "collection" operator="==="}}

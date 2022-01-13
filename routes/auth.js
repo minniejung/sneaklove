@@ -31,33 +31,37 @@ router.post("/auth/signup", async (req, res, next) => {
     next(error);
   }
 });
-router.post("/auth/signin", async (req, res) => {
+router.post("/auth/signin", async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
 
-  try{
-    const {email, password} = req.body
-  
-   const foundedUser = await User.findOne({email : email})
-   console.log(foundedUser)
-   if(!foundedUser){
-    req.flash("error", "Email not regristered");
-    res.redirect("/auth/signup");
-   }else{
-     const pwd = bcrypt.compareSync(password, foundedUser.password)
-     if(pwd){
-      req.flash("success", "Welcome :)");
-       const objectUser = foundedUser.toObject()
-       delete objectUser.password
-       req.session.currentUser = objectUser;
-       res.redirect("/")
-
-     }else{
-      req.flash("warning", "wrong password");
-      res.redirect("/auth/signin")
-     }
-   }
-  }catch(err){
-    console.error(err)
+    const foundedUser = await User.findOne({ email: email });
+    console.log(foundedUser);
+    if (!foundedUser) {
+      req.flash("error", "Email not regristered");
+      res.redirect("/auth/signup");
+    } else {
+      const pwd = bcrypt.compareSync(password, foundedUser.password);
+      if (pwd) {
+        req.flash("success", "Welcome :)");
+        const objectUser = foundedUser.toObject();
+        delete objectUser.password;
+        req.session.currentUser = objectUser;
+        res.redirect("/partials/dashboard_sneaker");
+      } else {
+        req.flash("warning", "wrong password");
+        res.redirect("/auth/signin");
+      }
+    }
+  } catch (err) {
+    console.error(err);
+    next(err);
   }
-
 });
+
+router.get("/auth/logout", (req, res, next) => {
+  req.session.destroy();
+  res.redirect("/");
+});
+
 module.exports = router;
