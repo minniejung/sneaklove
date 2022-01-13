@@ -1,9 +1,9 @@
-const {model, Schema } = require('mongoose');
+const { model, Schema } = require("mongoose");
 
 const labelSchema = new Schema({
-    label: String
-})
+  label: String,
+});
 
-const Label = model('label',labelSchema );
+const Label = model("label", labelSchema);
 
 module.exports = Label;
