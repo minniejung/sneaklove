@@ -2,6 +2,11 @@ const { model, Schema } = require("mongoose");
 
 const sneakerSchema = new Schema({
   name: String,
+  user_id: {
+    type: Schema.Types.ObjectId,
+    ref: "user",
+    default: "61e045a3a585532431417209",
+  },
   ref: String,
   size: Number,
   description: String,
