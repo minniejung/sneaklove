@@ -67,4 +67,13 @@ router.post("/product-edit/:id", async (req, res, next) => {
   }
 });
 
+router.get("/delete/:id", async (req, res, next) => {
+  try {
+    await sneakerModel.findByIdAndDelete(req.params.id);
+    res.redirect("/prod-manage");
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

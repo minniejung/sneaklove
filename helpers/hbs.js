@@ -7,6 +7,16 @@ const hbs = require("hbs");
 // usage : {{ternary NaN "yay" "nay "}} => prints nay
 hbs.registerHelper("ternary", (test, yes, no) => (test ? yes : no));
 
+hbs.registerHelper("isSelected", function (needle, haystack) {
+  return Array.isArray(haystack)
+    ? haystack.map((e) => e.name).includes(needle)
+      ? "selected"
+      : ""
+    : haystack.name === needle
+    ? "selected"
+    : "";
+});
+
 // add comparison operator feature to hbs templates
 /* 
 
@@ -18,37 +28,37 @@ awesome, 1 is less thant 10 !!!
 
 */
 
-hbs.registerHelper("compare", function(lvalue, rvalue, options) {
+hbs.registerHelper("compare", function (lvalue, rvalue, options) {
   if (arguments.length < 3)
     throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
 
   var operator = options.hash.operator || "==";
 
   var operators = {
-    "==": function(l, r) {
+    "==": function (l, r) {
       return l == r;
     },
-    "===": function(l, r) {
+    "===": function (l, r) {
       return l === r;
     },
-    "!=": function(l, r) {
+    "!=": function (l, r) {
       return l != r;
     },
-    "<": function(l, r) {
+    "<": function (l, r) {
       return l < r;
     },
-    ">": function(l, r) {
+    ">": function (l, r) {
       return l > r;
     },
-    "<=": function(l, r) {
+    "<=": function (l, r) {
       return l <= r;
     },
-    ">=": function(l, r) {
+    ">=": function (l, r) {
       return l >= r;
     },
-    typeof: function(l, r) {
+    typeof: function (l, r) {
       return typeof l == r;
-    }
+    },
   };
 
   if (!operators[operator])
